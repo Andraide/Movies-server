@@ -1,8 +1,8 @@
 module.exports = errorHandler;
 
-async function errorHandler(err, ctx) {
+async function errorHandler(err) {
    
-    console.log("Error ====>!!", err)
+    //console.log("Error ====>!!", err)
 
     /*if (typeof (err) === 'string') {
        
@@ -11,5 +11,5 @@ async function errorHandler(err, ctx) {
     }*/
 
     
-    ctx.status = err
+    //ctx.status = err
 }

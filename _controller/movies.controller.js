@@ -27,7 +27,7 @@ async function XD(ctx, next){
         const params = ctx.request.query
         const title = params.title
         const vikings = await moviesService.getVikings(title)
-        ctx.body = vikingsE
+        ctx.body = vikings
     }
     catch (err) 
     {
@@ -37,3 +37,4 @@ async function XD(ctx, next){
 };
 
 module.exports = router
+

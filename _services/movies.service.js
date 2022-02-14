@@ -13,16 +13,16 @@ const Movie = mongoose.model('Movies', moviesSchema);
 
 async function getData(url, query) {
         try {
-            console.log(url+query)
             let response = await fetch(url + query);
             await handleResponse(response)
             
             const json = await response.json();
 
-            const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = response
-            crud.save(Movie, { Title, Year, Released, Genre, Director, Actors, Plot, Ratings })
+            const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = json
             
-            return json
+            crud.save(Movie, { Title, Year, Released, Genre, Director, Actors, Plot, Ratings })
+
+            return { Title, Year, Released, Genre, Director, Actors, Plot, Ratings }
         } catch (err) {
             throw err
         }
@@ -31,7 +31,7 @@ async function getData(url, query) {
 async function getMovieByTitle(title) {
     try 
     {
-        const movies = await getData(urlOmbdAPI, title)
+        const movies = await getData(urlOmbdAPI, title) 
         return movies
     }
     catch (err)
@@ -52,7 +52,20 @@ async function getMoviesByTitleNYear(title, year) {
     }    
 }
 
+async function getMoviesDB(query)
+{
+    let read = await crud.find(Movie, query)
+    return read
+}
+
+async function removeAll()
+{
+    crud.removeAll(Movie)
+}
+
 module.exports = {
     getMovieByTitle,
-    getMoviesByTitleNYear
+    getMoviesByTitleNYear,
+    getMoviesDB,
+    removeAll
 }

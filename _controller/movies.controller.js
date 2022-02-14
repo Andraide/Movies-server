@@ -21,13 +21,24 @@ async function checkDb(ctx, next)
 }
 
 async function XD(ctx, next){
+    
     try 
     {
-        console.log("Header", ctx.get('Year'), schema.validate(ctx.get('Year')) )
-        const params = ctx.request.query
-        const title = params.title
-        const vikings = await moviesService.getVikings(title)
-        ctx.body = vikings
+        if("error" in schema.validate({year : parseInt(ctx.get('Year'))}))
+        {
+            const params = ctx.request.query
+            const title = params.title
+            const movie = await moviesService.getMovieByTitle(title)
+            ctx.body = movie
+        }
+        else
+        {
+            const params = ctx.request.query
+            const title = params.title
+            const year = ctx.get('Year')
+            const movie = await moviesService.getMoviesByTitleNYear(title, year)
+            ctx.body = movie
+        }
     }
     catch (err) 
     {

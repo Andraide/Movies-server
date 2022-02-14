@@ -7,76 +7,44 @@ const urlFullCastById = "https://imdb-api.com/en/API/FullCast/k_job2e7ku/"
 const urlAxes = "https://imdb-api.com/en/API/SearchMovie/k_job2e7ku/axe";
 const urlByTitle = "https://imdb-api.com/en/API/Title/k_job2e7ku/";
 const handleResponse = require('../helpers/handle-response')
-const { Schema } = mongoose;
-
-const moviesSchema = new Schema({
-    
-        Title: String,
-        Year: String,
-        Rated: String,
-        Released: String,
-        Genre: String,
-        Director: String,
-        Actors: String,
-        Plot: String,
-        Ratings: [
-            {
-                Source: String,
-                Value: String
-            }
-        ]
-});
+const crud = require('../db/crud')
+const moviesSchema = require('../schemas/movies.schema')
 const Movie = mongoose.model('Movies', moviesSchema);
 
-async function getData(url, title) {
+async function getData(url, query) {
         try {
-            let response = await fetch(url + title);
+            console.log(url+query)
+            let response = await fetch(url + query);
             await handleResponse(response)
             
             const json = await response.json();
 
             const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = response
+            crud.save(Movie, { Title, Year, Released, Genre, Director, Actors, Plot, Ratings })
             
-            const movie = new Movie({ Title, Year, Released, Genre, Director, Actors, Plot, Ratings });
-            movie.save(function (err) {
-                if (err) return handleError(err);
-                console.log("Movie Saved")
-            });
             return json
         } catch (err) {
             throw err
         }
 }
 
-async function getPromises(url ,ids)
-{
-    return ids.map(( x, i, v ) => {
-        return new Promise(( resolve, reject ) => {
-            https.get(url + x, (res) => {
-                let rawData = '';
-                res.on( 'data', (chunk) => { rawData += chunk });
-                res.on( 'end', () => {
-                    try {
-                        const parsedData = JSON.parse(rawData);
-                        resolve(parsedData);
-                    } catch (e) {
-                        console.error(e.message);
-                        reject(e.message);
-                    }
-                })
-            }).on('error', (e) => {
-                console.error("Got error", e.message);
-            })
-        })
-    })
-}
-
-
-async function getVikings(title) {
+async function getMovieByTitle(title) {
     try 
     {
-        const vikings = await getData(urlOmbdAPI, title)
-        return vikings
+        const movies = await getData(urlOmbdAPI, title)
+        return movies
+    }
+    catch (err)
+    {
+        throw err
+    }    
+}
+
+async function getMoviesByTitleNYear(title, year) {
+    try 
+    {
+        const movies= await getData(urlOmbdAPI + title, '&year=' + year)
+        return movies
     }
     catch (err)
     {
@@ -85,5 +53,6 @@ async function getVikings(title) {
 }
 
 module.exports = {
-    getVikings
+    getMovieByTitle,
+    getMoviesByTitleNYear
 }

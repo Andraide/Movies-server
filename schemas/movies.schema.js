@@ -1,17 +1,9 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-/*
-Title
-Year
-Released
-Genre
-Director
-Actors
-Plot
-Ratings
-*/
-/*const moviesSchema = new Schema({
+
+
+const moviesSchema = new Schema({
     
         Title: String,
         Year: String,
@@ -29,10 +21,4 @@ Ratings
         ]
 });
 
-const Movie = mongoose.model('Movies', moviesSchema);
-exports.module = Movie
-*/
-
-const schema = new mongoose.Schema({ name: 'string', size: 'string' });
-const Tank = mongoose.model('Tank', schema);
-exports.module = Tank
+module.exports = moviesSchema

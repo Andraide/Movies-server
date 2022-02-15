@@ -1,10 +1,21 @@
 # Movies-server backend
 
 
-> Install dependecies and Start the project
+> Install dependecies
 
 ```shell
-npm i && npm start
+npm i
+```
+
+> Build your image
+
+```shell
+docker build . -t <your username>/movies-server
+```
+
+> Run your image
+```shell
+docker run -p 49160/8080 <your username>/movies-server
 ```
 
 > Open API documentation

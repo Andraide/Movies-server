@@ -55,7 +55,11 @@ async function getMoviesByTitleNYear(title, year) {
 async function getMoviesDB(query)
 {
     let movie = await crud.find(Movie, query)
-    return movie
+    let movieFiltered = movie.map((x) => {
+        const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = x
+        return { Title, Year, Released, Genre, Director, Actors, Plot, Ratings }
+    })
+    return movieFiltered
 }
 
 async function removeAll()

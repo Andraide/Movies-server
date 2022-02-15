@@ -51,6 +51,15 @@ paths:
           description: "Response"
           schema:
             $ref: '#/definitions/UpdateResponse'
+  /delete:
+    delete:
+      summary: "Delete all movies"
+      description: "Delete all movies from database"
+      responses:
+        200:
+          description: "Response"
+          schema:
+            type: "string"
 definitions:
   Movie:
     type: "object"

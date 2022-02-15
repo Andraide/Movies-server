@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 router.get('/', getMovies)
 router.get('/allMovies', getAllMovies)
 router.put('/update', updateMovie)
+router.delete('/delete', deleteModel)
 
 async function getMovies(ctx, next){
     
@@ -42,6 +43,7 @@ async function getAllMovies(ctx)
     try 
     {
         let movies = await moviesService.getMoviesDB({})
+        //console.log()
         if(movies.length < 5)
         {
             ctx.body = movies
@@ -54,7 +56,6 @@ async function getAllMovies(ctx)
         //Case that page header is valid
         else 
         {
-            
             ctx.body = ctx.get('Page') > 0 ? movies.slice(ctx.get('Page') * 5 + 1,ctx.get('Page') * 5 + 6) : movies.slice(ctx.get('Page') * 5,ctx.get('Page') * 5 + 6)
         }
     }
@@ -69,7 +70,6 @@ async function updateMovie(ctx)
     const params = ctx.request.body
     try 
     {
-        
         if("error" in joi.updateMovieSchema.validate({movie : params.movie, find: params.find, replace: params.replace}))
         {
             ctx.body = "The post request has to be with the following form is needed: {movie: string, find: string, replace: string }"
@@ -88,6 +88,19 @@ async function updateMovie(ctx)
     }
 }
 
+async function deleteModel(ctx)
+{
+    try 
+    {
+        await moviesService.removeAll()
+        ctx.body = "Model deleted"
+    }
+    catch(err)
+    {
+        ctx.body = "Model deleted incomple" + err
+    }
+    
+}
 
 module.exports = router
 

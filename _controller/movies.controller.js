@@ -8,6 +8,7 @@ router.get('/', XD )
 router.get('/check', checkDb)
 router.get('/clean', clean)
 router.get('/all', getAllMovies)
+router.post('/update', updateMovie)
 
 
 const yearSchema = Joi.object({
@@ -22,6 +23,15 @@ const pageSchema = Joi.object({
         .min(0)
         .max(10000)
         .required()
+})
+
+const updateMovieSchema = Joi.object({
+    movie:  Joi.string()
+        .required(),
+    find:   Joi.string()
+        .required(),
+    replace: Joi.string()
+        .required(),
 })
 
 async function getAllMovies(ctx)
@@ -54,6 +64,39 @@ async function getAllMovies(ctx)
 async function checkDb(ctx, next)
 {
     ctx.body = mongoose.STATES[mongoose.connection.readyState] ;
+}
+
+async function updateMovie(ctx) 
+{
+    const params = ctx.request.body
+    try 
+    {
+        //Search movie by Title
+        //console.log(updateMovieSchema.validate({movie : params.movie, find: params.find, replace: params.replace}))
+       
+            if("error" in updateMovieSchema.validate({movie : params.movie, find: params.find, replace: params.replace}))
+            {
+                //const params = ctx.request.body
+                //const title = params.title
+                //const movie = await moviesService.getMovieByTitle(title)
+                ctx.body = "The post request has to be with the following form is needed: {movie: string, find: string, replace: string }"
+            }
+            //search movie by Title and Year
+            else
+            {
+                //const params = ctx.request.query
+                //const title = params.title
+                //const year = ctx.get('Year')
+                //const movie = await moviesService.getMoviesByTitleNYear(title, year)
+                ctx.body = params
+            }
+        
+    }
+    catch (err) 
+    {
+        //ctx.status = err
+        ctx.body = "There was an error" + " " + err
+    }
 }
 
 async function XD(ctx, next){

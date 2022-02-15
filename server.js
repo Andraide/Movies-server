@@ -1,16 +1,16 @@
 const Koa = require('koa')
 const app = new Koa()
+const bodyParser = require('koa-bodyparser');
 
 const router = require('./_controller/movies.controller')
 const errorHandler = require('./helpers/error-handler')
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test').
-catch(error => console.log("Error connecting to Db", error))
+mongoose.connect('mongodb://127.0.0.1:27017/test')
+    .catch(error => console.log("Error connecting to Db", error))
 console.log(mongoose.connection.readyState);
 
-
-
+app.use(bodyParser())
 app.use(router.routes())
 app.use(errorHandler);
 app.use(router.allowedMethods())

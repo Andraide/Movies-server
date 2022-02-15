@@ -54,8 +54,8 @@ async function getMoviesByTitleNYear(title, year) {
 
 async function getMoviesDB(query)
 {
-    let read = await crud.find(Movie, query)
-    return read
+    let movie = await crud.find(Movie, query)
+    return movie
 }
 
 async function removeAll()
@@ -63,9 +63,37 @@ async function removeAll()
     crud.removeAll(Movie)
 }
 
+async function updateMovie(query)
+{
+    try 
+    {
+        let movieRecord = await crud.find(Movie, { Title: query.movie })
+        if(movieRecord)
+        {
+            let wordArray = movieRecord[0].Plot.split(" ")
+            for(let i=0; i< wordArray.length; i++)
+            {
+                if(wordArray[i] == query.find)
+                {
+                    movieRecord[0].Plot = movieRecord[0].Plot.replace(query.find, query.replace)    
+                }
+            }
+    
+            await crud.update(Movie, query.movie, movieRecord[0].Plot)
+
+            return movieRecord[0].Plot
+        }
+    }
+    catch(err) 
+    {
+        throw err
+    }
+}
+
 module.exports = {
     getMovieByTitle,
     getMoviesByTitleNYear,
     getMoviesDB,
+    updateMovie,
     removeAll
 }

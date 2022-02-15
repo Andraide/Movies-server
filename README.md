@@ -1,4 +1,4 @@
-# Movies-server backend
+# Movies-server
 
 
 > Build your image

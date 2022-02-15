@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 router.get('/', getMovies)
 router.get('/allMovies', getAllMovies)
 router.put('/update', updateMovie)
-router.get('/clean', clean)
-router.get('/check', checkDbStatus)
 
 async function getMovies(ctx, next){
     
@@ -90,15 +88,6 @@ async function updateMovie(ctx)
     }
 }
 
-async function clean()
-{
-    moviesService.removeAll()
-}
-
-async function checkDbStatus(ctx, next)
-{
-    ctx.body = mongoose.STATES[mongoose.connection.readyState] ;
-}
 
 module.exports = router
 

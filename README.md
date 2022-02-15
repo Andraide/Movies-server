@@ -1,12 +1,6 @@
 # Movies-server backend
 
 
-> Install dependecies
-
-```shell
-npm i
-```
-
 > Build your image
 
 ```shell

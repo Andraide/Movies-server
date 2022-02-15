@@ -6,14 +6,12 @@ const yearSchema = Joi.object({
         .max(2050)
         .required(),
 })
-
 const pageSchema = Joi.object({
     page: Joi.number()
         .min(0)
         .max(10000)
         .required()
 })
-
 const updateMovieSchema = Joi.object({
     movie:  Joi.string()
         .required(),

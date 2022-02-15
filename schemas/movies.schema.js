@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-
 const moviesSchema = new Schema({
     
         Title: { type: String, unique: true },

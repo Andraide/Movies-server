@@ -1,11 +1,6 @@
-const https = require("https");
 const fetch = require("node-fetch");
 const mongoose = require('mongoose');
-const urlVikings = "http://www.omdbapi.com/?apikey=a756dc65&"
 const urlOmbdAPI = "http://www.omdbapi.com/?apikey=a756dc65&t="
-const urlFullCastById = "https://imdb-api.com/en/API/FullCast/k_job2e7ku/"
-const urlAxes = "https://imdb-api.com/en/API/SearchMovie/k_job2e7ku/axe";
-const urlByTitle = "https://imdb-api.com/en/API/Title/k_job2e7ku/";
 const handleResponse = require('../helpers/handle-response')
 const crud = require('../db/crud')
 const moviesSchema = require('../schemas/movies.schema')
@@ -54,9 +49,9 @@ async function getMoviesByTitleNYear(title, year) {
 
 async function getMoviesDB(query)
 {
-    let movie = await crud.find(Movie, query)
-    let movieFiltered = movie.map((x) => {
-        const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = x
+    let movies = await crud.find(Movie, query)
+    let movieFiltered = movies.map((movie) => {
+        const { Title, Year, Released, Genre, Director, Actors, Plot, Ratings } = movie
         return { Title, Year, Released, Genre, Director, Actors, Plot, Ratings }
     })
     return movieFiltered

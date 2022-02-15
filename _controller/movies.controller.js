@@ -5,7 +5,7 @@ const joi = require('../schemas/joi.schemas')
 const mongoose = require('mongoose');
 
 router.get('/', getMovies)
-router.get('/all', getAllMovies)
+router.get('/allMovies', getAllMovies)
 router.put('/update', updateMovie)
 router.get('/clean', clean)
 router.get('/check', checkDbStatus)

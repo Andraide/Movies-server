@@ -1,0 +1,99 @@
+swagger: "2.0"
+info:
+  title: "Movies API Swagger"
+  description: >
+    Documentation of Movies API.
+  version: "1.0.0"
+host: "localhost:8080"
+schemes:
+  - "http"
+paths:
+  /?title=Matrix:
+    get:
+      summary: "Get movies by titles"
+      description: "Get movies by title or by title and year"
+    
+
+      responses:
+        200:
+          description: "Response"
+          schema:
+            $ref: '#/definitions/Movie'
+  /allMovies:
+    get:
+      summary: "Get all movies"
+      description: "Get all movies that was stored on the db"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Response"
+          schema:
+            $ref: '#/definitions/Movies'
+  /update:
+    put:
+      summary: "Update a movie"
+      description: "Update a movie searching it by his title"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema: 
+            $ref: "#/definitions/UpdateParam"
+      responses:
+        200:
+          description: "Response"
+          schema:
+            $ref: '#/definitions/UpdateResponse'
+definitions:
+  Movie:
+    type: "object"
+    properties:
+      Title:
+        type: "string"
+      Year:
+        type: "string"
+      Released:
+        type: "string"
+      Genre:
+        type: "string"
+      Director:
+        type: "string"
+      Actors:
+        type: "string"
+      Plot:
+        type: "string"
+      Ratings:
+        type: "object"
+  Movies:
+    type: array
+    items: 
+      $ref: '#/definitions/Movie'    
+  UpdateParam:
+    type: object
+    required:
+      - movie
+      - find
+      - replace
+    properties:
+      movie:
+        type: string
+        example: "Matrix"
+      find:
+        type: string
+        example: "Steven"
+      replace:
+        type: string
+        example: "Reload"
+  UpdateResponse:
+    type: string
+    example: "Steven Reload is one of the underworld's foremost hitmen until his luck runs out, and someone puts a contract out on him. Shot in the forehead by a .22 pistol, Reload \"dies\" and finds himself in \"The City In Between\", where he is sho"
+
+      
+      

@@ -31,7 +31,7 @@ async function update(model, query, replace)
         await model.findOneAndUpdate(filter, updateObj, { new: true }, (err, doc) => {
             if(err) console.log("Not updated")
             console.log("Updated")
-        })
+        }).clone().catch(function(err){console.log("Update error", err)})
     }
     catch(err)
     {

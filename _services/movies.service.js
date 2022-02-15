@@ -68,20 +68,27 @@ async function updateMovie(query)
     try 
     {
         let movieRecord = await crud.find(Movie, { Title: query.movie })
-        if(movieRecord)
+        if(movieRecord[0])
         {
-            let wordArray = movieRecord[0].Plot.split(" ")
-            for(let i=0; i< wordArray.length; i++)
+            if("Plot" in movieRecord[0])
             {
-                if(wordArray[i] == query.find)
+                let wordArray = movieRecord[0].Plot.split(" ")
+                for(let i=0; i< wordArray.length; i++)
                 {
-                    movieRecord[0].Plot = movieRecord[0].Plot.replace(query.find, query.replace)    
+                    if(wordArray[i] == query.find)
+                    {
+                        movieRecord[0].Plot = movieRecord[0].Plot.replace(query.find, query.replace)    
+                    }
                 }
-            }
-    
-            await crud.update(Movie, query.movie, movieRecord[0].Plot)
+        
+                await crud.update(Movie, query.movie, movieRecord[0].Plot)
 
-            return movieRecord[0].Plot
+                return movieRecord[0].Plot
+            }
+        }
+        else
+        {
+            return "Nothing to update"
         }
     }
     catch(err) 

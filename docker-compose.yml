@@ -1,13 +1,15 @@
 version: "3"
 services:
-       login-app:
-           container_name: randraide/movies-server
-           image: latest123/login-app
+       movies-server:
+           container_name: movies-server
+           image: randraide/movies-server
            restart: always
            build: .
            ports:
-             - "7500:7500"
+             - "8080:8080"
            links:
+             - mongo
+           depends_on:
              - mongo
        mongo:
              container_name: mongo
@@ -15,4 +17,4 @@ services:
              volumes:
                - ./data:/data/db
              ports:
-               - '27018:27017'
+               - '27017:27017'

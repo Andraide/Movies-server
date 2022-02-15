@@ -4,14 +4,14 @@
 > Build your image
 
 ```shell
-docker build . -t <your username>/movies-server
+docker build . -t randraide/movies-server
 ```
 
 > Run your image
 ```shell
-docker run -p 49160/8080 <your username>/movies-server
+docker-compose up
 ```
 
 > Open API documentation
 
-[localhost:8080/swagger](https://localhost:8080/swagger)
+[localhost:8080/swagger](http://localhost:8080/swagger)

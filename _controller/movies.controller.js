@@ -43,7 +43,6 @@ async function getAllMovies(ctx)
     try 
     {
         let movies = await moviesService.getMoviesDB({})
-        //console.log()
         if(movies.length < 5)
         {
             ctx.body = movies
